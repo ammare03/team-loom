@@ -1,9 +1,27 @@
 "use client";
 
+import React from "react";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { Button } from "@/components/ui/button";
 import { setIsSidebarCollapsed } from "@/state";
-import { Home, LockIcon, LucideIcon, X } from "lucide-react";
+import {
+  AlertCircle,
+  AlertOctagon,
+  AlertTriangle,
+  Briefcase,
+  ChevronDown,
+  ChevronUp,
+  Home,
+  Layers3,
+  LockIcon,
+  LucideIcon,
+  Search,
+  Settings,
+  ShieldAlert,
+  User,
+  Users,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,11 +38,11 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`fixed z-40 flex h-[100%] flex-col justify-between overflow-y-auto bg-white shadow-xl transition-all duration-300 dark:bg-black ${isSidebarCollapsed ? "hidden w-0" : "w-64"}`}
+      className={`no-scrollbar fixed z-40 flex h-[100%] flex-col justify-between overflow-y-auto bg-white shadow-xl transition-all duration-300 dark:bg-black ${isSidebarCollapsed ? "hidden w-0" : "w-64"}`}
     >
       <div className="flex h-full w-full flex-col justify-start">
         {/* Top Logo */}
-        <div className="z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black">
+        <div className="sticky top-0 z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black">
           <div className="text-xl font-bold text-gray-800 dark:text-white">
             TeamLoom
           </div>
@@ -61,7 +79,78 @@ export default function Sidebar() {
         {/* Navbar Links */}
         <nav className="z-10 w-full">
           <SidebarLink icon={Home} label="Home" href="/" />
+          <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
+          <SidebarLink icon={Search} label="Search" href="/search" />
+          <SidebarLink icon={Settings} label="Settings" href="/settings" />
+          <SidebarLink icon={User} label="Users" href="/users" />
+          <SidebarLink icon={Users} label="Teams" href="/teams" />
         </nav>
+
+        {/* Projects Links */}
+        <div>
+          <div className="mx-1.5 my-1.5 rounded-lg bg-transparent shadow-xl outline-2 outline-gray-500">
+            <Button
+              onClick={() => {
+                setShowProjects((prev) => !prev);
+              }}
+              className="flex w-full items-center justify-between bg-transparent px-8 py-3 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <span className="">Projects</span>
+              {showProjects ? (
+                <ChevronUp className="size-5" />
+              ) : (
+                <ChevronDown className="size-5" />
+              )}
+            </Button>
+            {/* Projects List */}
+          </div>
+
+          {/* Priorities Links */}
+          <div className="mx-1.5 my-1.5 mb-6 rounded-lg bg-transparent shadow-xl outline-2 outline-gray-500">
+            <Button
+              onClick={() => {
+                setShowPriority((prev) => !prev);
+              }}
+              className="flex w-full items-center justify-between bg-transparent px-8 py-3 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <span className="">Priority</span>
+              {showPriority ? (
+                <ChevronUp className="size-5" />
+              ) : (
+                <ChevronDown className="size-5" />
+              )}
+            </Button>
+            {showPriority && (
+              <>
+                <SidebarLink
+                  icon={AlertCircle}
+                  label="Urgent"
+                  href="/priority/urgent"
+                />
+                <SidebarLink
+                  icon={ShieldAlert}
+                  label="High"
+                  href="/priority/high"
+                />
+                <SidebarLink
+                  icon={AlertTriangle}
+                  label="Medium"
+                  href="/priority/medium"
+                />
+                <SidebarLink
+                  icon={AlertOctagon}
+                  label="Low"
+                  href="/priority/low"
+                />
+                <SidebarLink
+                  icon={Layers3}
+                  label="Backlog"
+                  href="/priority/backlog"
+                />
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -71,32 +160,20 @@ interface SidebarLinkProps {
   href: string;
   icon: LucideIcon;
   label: string;
-  // isCollapsed?: boolean;
 }
 
-const SidebarLink = ({
-  href,
-  icon: Icon,
-  label,
-  // isCollapsed,
-}: SidebarLinkProps) => {
+const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   const pathname = usePathname();
   const isActive =
     pathname === href || (pathname === "/" && href === "/dashboard");
-  const screenWidth = window.innerWidth;
-
-  const dispatch = useAppDispatch();
-  const isSidebarCollapsed = useAppSelector(
-    (state) => state.global.isSidebarCollapsed,
-  );
 
   return (
     <Link href={href} className="w-full">
       <div
-        className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""}`}
+        className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""} justify-start px-8 py-3`}
       >
         {isActive && (
-          <div className="absolute top-0 left-0 h-full w-[5px] bg-blue-200"></div>
+          <div className="absolute top-0 left-0 h-full w-[5px] bg-blue-200" />
         )}
         <Icon className="size-6 text-gray-800 dark:text-gray-100" />
         <span className={`font-medium text-gray-800 dark:text-gray-100`}>

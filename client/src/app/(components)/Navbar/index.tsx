@@ -20,9 +20,10 @@ export default function Navbar() {
       <div className="flex items-center gap-8">
         {!isSidebarCollapsed ? null : (
           <Button
+            className="border-none bg-transparent py-3 shadow-none hover:bg-gray-100 dark:hover:bg-gray-800"
             onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}
           >
-            <Menu className="size-8 dark:text-white" />
+            <Menu className="size-8 text-gray-500 hover:text-gray-700 dark:text-white dark:hover:text-gray-300" />
           </Button>
         )}
         <div className="relative flex h-min w-[200px]">
