@@ -1,13 +1,30 @@
 import React from "react";
-import { Search, Settings } from "lucide-react";
+import { Menu, Moon, Search, Settings, Sun } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/app/redux";
+import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
+  const dispatch = useAppDispatch();
+  const isSidebarCollapsed = useAppSelector(
+    (state) => state.global.isSidebarCollapsed,
+  );
+
+  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+
   return (
     <div className="flex items-center justify-between bg-white px-4 py-3 dark:bg-black">
       {/* Search Bar */}
       <div className="flex items-center gap-8">
+        {!isSidebarCollapsed ? null : (
+          <Button
+            onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}
+          >
+            <Menu className="size-8 dark:text-white" />
+          </Button>
+        )}
         <div className="relative flex h-min w-[200px]">
           <Search className="absolute top-1/2 left-[4px] mr-2 size-5 -translate-y-1/2 transform cursor-pointer dark:text-white" />
           <Input
@@ -20,9 +37,28 @@ export default function Navbar() {
 
       {/* Icons */}
       <div className="flex items-center">
+        <Button
+          variant="ghost"
+          onClick={() => dispatch(setIsDarkMode(!isDarkMode))}
+          className={
+            isDarkMode
+              ? `rounded p-2 dark:hover:bg-gray-700`
+              : `rounded p-2 hover:bg-gray-100`
+          }
+        >
+          {isDarkMode ? (
+            <Sun className="size-6 cursor-pointer dark:text-white" />
+          ) : (
+            <Moon className="size-6 cursor-pointer dark:text-white" />
+          )}
+        </Button>
         <Link
           href="/settings"
-          className="size-min rounded p-2 hover:bg-gray-100"
+          className={
+            isDarkMode
+              ? `size-min rounded p-2 dark:hover:bg-gray-700`
+              : `size-min rounded p-2 hover:bg-gray-100`
+          }
         >
           <Settings className="size-6 cursor-pointer dark:text-white" />
         </Link>

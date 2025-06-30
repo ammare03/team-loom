@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
-import "./globals.css";
+import "./app.css";
 import DashboardWrapper from "./DashboardWrapper";
 
 const rubik = Rubik({ subsets: ["latin"] });
