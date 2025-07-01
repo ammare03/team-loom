@@ -26,10 +26,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useGetProjectsQuery } from "@/state/api";
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
+
+  const { data: projects } = useGetProjectsQuery();
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
@@ -88,7 +91,7 @@ export default function Sidebar() {
 
         {/* Projects Links */}
         <div>
-          <div className="mx-1.5 my-1.5 rounded-lg bg-transparent shadow-xl outline-2 outline-gray-500">
+          <div className="mx-1.5 my-1.5 rounded-lg bg-transparent">
             <Button
               onClick={() => {
                 setShowProjects((prev) => !prev);
@@ -103,10 +106,19 @@ export default function Sidebar() {
               )}
             </Button>
             {/* Projects List */}
+            {showProjects &&
+              projects?.map((project) => (
+                <SidebarLink
+                  key={project.id}
+                  icon={Briefcase}
+                  label={project.name}
+                  href={`/projects/${project.id}`}
+                />
+              ))}
           </div>
 
           {/* Priorities Links */}
-          <div className="mx-1.5 my-1.5 mb-6 rounded-lg bg-transparent shadow-xl outline-2 outline-gray-500">
+          <div className="mx-1.5 my-1.5 mb-6 rounded-lg bg-transparent">
             <Button
               onClick={() => {
                 setShowPriority((prev) => !prev);
@@ -170,7 +182,7 @@ const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   return (
     <Link href={href} className="w-full">
       <div
-        className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""} justify-start px-8 py-3`}
+        className={`relative flex cursor-pointer items-center gap-3 rounded-lg transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""} justify-start px-8 py-3`}
       >
         {isActive && (
           <div className="absolute top-0 left-0 h-full w-[5px] bg-blue-200" />
