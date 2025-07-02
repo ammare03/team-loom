@@ -41,11 +41,11 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`no-scrollbar fixed z-40 flex h-[100%] flex-col justify-between overflow-y-auto bg-white shadow-xl transition-all duration-300 dark:bg-black ${isSidebarCollapsed ? "hidden w-0" : "w-64"}`}
+      className={`no-scrollbar dark:bg-dark-bg fixed z-40 flex h-[100%] flex-col justify-between overflow-y-auto bg-white shadow-xl transition-all duration-300 ${isSidebarCollapsed ? "hidden w-0" : "w-64"}`}
     >
       <div className="flex h-full w-full flex-col justify-start">
         {/* Top Logo */}
-        <div className="sticky top-0 z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black">
+        <div className="dark:bg-dark-bg sticky top-0 z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3">
           <div className="text-xl font-bold text-gray-800 dark:text-white">
             TeamLoom
           </div>
@@ -182,7 +182,7 @@ const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   return (
     <Link href={href} className="w-full">
       <div
-        className={`relative flex cursor-pointer items-center gap-3 rounded-lg transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""} justify-start px-8 py-3`}
+        className={`dark:bg-dark-bg relative flex cursor-pointer items-center gap-3 rounded-lg transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 ${isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""} justify-start px-8 py-3`}
       >
         {isActive && (
           <div className="absolute top-0 left-0 h-full w-[5px] bg-blue-200" />

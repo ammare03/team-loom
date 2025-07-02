@@ -33,6 +33,7 @@ export interface User {
 }
 
 export interface Attachment {
+  fileURL: any;
   id: number;
   fileUrl: string;
   fileName: string;

@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
-import { Button } from "@/components/ui/button";
-import { Clock, Grid3X3, List, Table } from "lucide-react";
+import TabButton from "@/components/TabButton";
+import { Clock, Filter, Grid3X3, List, Share2, Table } from "lucide-react";
 import React, { useState } from "react";
 
 type Props = {
@@ -45,28 +45,24 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
             activeTab={activeTab}
           />
         </div>
+        <div className="flex items-center gap-2">
+          <button className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300">
+            <Filter className="size-5" />
+          </button>
+          <button className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300">
+            <Share2 className="size-5" />
+          </button>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search Task..."
+              className="dark:border-dark-secondary dark:bg-dark-secondary rounded-md border py-1 pr-4 pl-10 focus:outline-none dark:text-white"
+            />
+            <Grid3X3 className="absolute top-2 left-3 size-4 text-gray-400 dark:text-neutral-500" />
+          </div>
+        </div>
       </div>
     </div>
-  );
-};
-
-type TabButtonProps = {
-  name: string;
-  icon: React.ReactNode;
-  setActiveTab: (tabName: string) => void;
-  activeTab: string;
-};
-
-const TabButton = ({ name, icon, setActiveTab, activeTab }: TabButtonProps) => {
-  const isActive = activeTab === name;
-  return (
-    <button
-      className={`relative flex items-center gap-2 px-1 py-2 text-gray-600 after:absolute after:-bottom-[9px] after:left-0 after:h-[1px] after:w-full hover:text-blue-600 sm:px-2 lg:px-4 dark:text-neutral-600 dark:hover:text-white ${isActive ? "text-blue-600 after:bg-blue-600 dark:text-white" : ""}`}
-      onClick={() => setActiveTab(name)}
-    >
-      {icon}
-      {name}
-    </button>
   );
 };
 
