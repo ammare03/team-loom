@@ -12,7 +12,6 @@ export default function Task({ task }: TaskProps) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging(),
     }),
