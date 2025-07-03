@@ -53,7 +53,7 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
   if (error) return <div>An error occurred while fetching tasks</div>;
 
   return (
-    <div className="px-4 xl:px-6">
+    <div className="px-4 pb-4 xl:px-6">
       <div className="flex flex-wrap items-center justify-between gap-2 py-5">
         <div>
           <Header name="Project Tasks Timeline" className="!mb-0" />
