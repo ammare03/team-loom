@@ -4,11 +4,19 @@ type Props = {
   name: string;
   buttonComponent?: any;
   isSmallText?: boolean;
+  className?: string;
 };
 
-const Header = ({ name, buttonComponent, isSmallText = false }: Props) => {
+const Header = ({
+  name,
+  buttonComponent,
+  isSmallText = false,
+  className = "",
+}: Props) => {
   return (
-    <div className="mb-5 flex w-full items-center justify-between">
+    <div
+      className={`mb-5 flex w-full items-center justify-between ${className}`}
+    >
       <h1
         className={`${isSmallText ? "text-lg" : "text-2xl"} font-semibold dark:text-white`}
       >

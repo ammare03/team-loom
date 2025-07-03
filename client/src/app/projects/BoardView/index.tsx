@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import TaskColumn from "@/components/TaskColumn";
 import { useGetTasksQuery, useUpdateTaskStatusMutation } from "@/state/api";
 import React from "react";
@@ -29,16 +30,21 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 xl:grid-cols-4">
-        {taskStatus.map((status) => (
-          <TaskColumn
-            key={status}
-            status={status}
-            tasks={tasks}
-            moveTask={moveTask}
-            setIsModalNewTaskOpen={setIsModalNewTaskOpen}
-          />
-        ))}
+      <div className="px-4 xl:px-6">
+        <div className="pt-5">
+          <Header name="Project Tasks Board" />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {taskStatus.map((status) => (
+              <TaskColumn
+                key={status}
+                status={status}
+                tasks={tasks}
+                moveTask={moveTask}
+                setIsModalNewTaskOpen={setIsModalNewTaskOpen}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </DndProvider>
   );

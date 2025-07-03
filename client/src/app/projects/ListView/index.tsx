@@ -21,7 +21,7 @@ const ListView = ({ id, setIsModalNewTaskOpen }: ListProps) => {
   return (
     <div className="px-4 pb-8 xl:px-6">
       <div className="pt-5">
-        <Header name="List" />
+        <Header name="Project Tasks List" />
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {tasks?.map((task: Task) => (
