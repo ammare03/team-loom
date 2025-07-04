@@ -1,25 +1,18 @@
+"use client";
+
 import { useAppSelector } from "@/app/redux";
 import Header from "@/components/Header";
-import { useGetTasksQuery } from "@/state/api";
+import { useGetProjectsQuery } from "@/state/api";
 import { DisplayOption, Gantt, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
 import React, { useMemo, useState } from "react";
 
-type Props = {
-  id: string;
-  setIsModalNewTaskOpen: (isOpen: boolean) => void;
-};
-
 type TaskTypeItems = "task" | "milestone" | "project";
 
-const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
+const Timeline = () => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
-  const {
-    data: tasks,
-    error,
-    isLoading,
-  } = useGetTasksQuery({ projectId: Number(id) });
+  const { data: projects, isLoading, isError } = useGetProjectsQuery();
 
   const [displayOptions, setDisplayOptions] = useState<DisplayOption>({
     viewMode: ViewMode.Month,
@@ -28,17 +21,17 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
 
   const ganttTasks = useMemo(() => {
     return (
-      tasks?.map((task) => ({
-        start: new Date(task.startDate as string),
-        end: new Date(task.dueDate as string),
-        name: task.title,
-        id: `Task-${task.id}`,
-        type: "task" as TaskTypeItems,
-        progress: task.points ? (task.points / 10) * 100 : 0,
+      projects?.map((project) => ({
+        start: new Date(project.startDate as string),
+        end: new Date(project.endDate as string),
+        name: project.name,
+        id: `Project-${project.id}`,
+        type: "project" as TaskTypeItems,
+        progress: 50,
         isDisabled: false,
       })) || []
     );
-  }, [tasks]);
+  }, [projects]);
 
   const handleViewModeChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -50,13 +43,14 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (error || !tasks) return <div>An error occurred while fetching tasks</div>;
+  if (isError || !projects)
+    return <div>An error occurred while fetching projects</div>;
 
   return (
-    <div className="px-4 pb-4 xl:px-6">
-      <div className="flex flex-wrap items-center justify-between gap-2 py-5">
+    <div className="max-w-full p-8">
+      <header className="mb-4 flex items-center justify-between">
         <div>
-          <Header name="Project Tasks Timeline" className="!mb-0" />
+          <Header name="Projects Timeline" className="!mb-0" />
         </div>
         <div className="relative inline-block w-64">
           <select
@@ -69,7 +63,7 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
             <option value={ViewMode.Month}>Month</option>
           </select>
         </div>
-      </div>
+      </header>
 
       <div className="dark:bg-dark-secondary overflow-hidden rounded-md bg-white shadow dark:text-white">
         <div className="timeline">
@@ -78,17 +72,10 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
             {...displayOptions}
             columnWidth={displayOptions.viewMode === ViewMode.Month ? 150 : 100}
             listCellWidth="100px"
-            barBackgroundColor={isDarkMode ? "#101214" : "#aeb8c2"}
-            barBackgroundSelectedColor={isDarkMode ? "#000" : "#9ba1a6"}
+            projectBackgroundColor={isDarkMode ? "#101214" : "#1f2937"}
+            projectProgressColor={isDarkMode ? "#1f2937" : "#aeb8c2"}
+            projectProgressSelectedColor={isDarkMode ? "#000" : "#9ba1a6"}
           />
-        </div>
-        <div className="px-4 pt-1 pb-5">
-          <button
-            className="bg-blue-primary flex items-center rounded px-3 py-2 text-white hover:bg-blue-600"
-            onClick={() => setIsModalNewTaskOpen(true)}
-          >
-            Add New Task
-          </button>
         </div>
       </div>
     </div>
