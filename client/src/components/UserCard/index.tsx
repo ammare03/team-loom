@@ -15,7 +15,7 @@ const UserCard = ({ user }: Props) => {
         <div className="relative">
           {user.profilePictureUrl ? (
             <Image
-              src={`/p1.jpeg`}
+              src={`https://team-loom-s3-images.s3.us-east-1.amazonaws.com/p1.jpeg`}
               alt="User Profile"
               width={64}
               height={64}
