@@ -6,7 +6,6 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 type Props = {
   id: string;
-  setIsModalNewTaskOpen: (isOpen: boolean) => void;
 };
 
 const columns: GridColDef[] = [
@@ -64,7 +63,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const Table = ({ id, setIsModalNewTaskOpen }: Props) => {
+const Table = ({ id }: Props) => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   const {

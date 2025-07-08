@@ -1,5 +1,5 @@
 import { Task as TaskType } from "@/state/api";
-import { useDrag } from "react-dnd";
+import { useDrag, DragSourceMonitor } from "react-dnd";
 import { format } from "date-fns";
 import Image from "next/image";
 import { Ellipsis, MessageSquareMore } from "lucide-react";
@@ -12,7 +12,7 @@ export default function Task({ task }: TaskProps) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
-    collect: (monitor: any) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));

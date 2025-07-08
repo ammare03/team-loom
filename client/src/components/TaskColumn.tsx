@@ -1,6 +1,7 @@
 import { Task as TaskType } from "@/state/api";
 import { EllipsisVertical, Plus } from "lucide-react";
 import { useDrop } from "react-dnd";
+import type { DropTargetMonitor } from "react-dnd";
 import Task from "./Task";
 
 type TaskColumnProps = {
@@ -19,14 +20,14 @@ export default function TaskColumn({
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task",
     drop: (item: { id: number }) => moveTask(item.id, status),
-    collect: (monitor: any) => ({
+    collect: (monitor: DropTargetMonitor) => ({
       isOver: !!monitor.isOver(),
     }),
   }));
 
   const tasksCount = tasks.filter((task) => task.status === status).length;
 
-  const statusColor: any = {
+  const statusColor: Record<string, string> = {
     "To Do": "#2563EB",
     "Work In Progress": "#059669",
     "Under Review": "#D97706",
