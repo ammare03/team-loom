@@ -51,5 +51,11 @@
     "tailwindcss": "^4.1.11",
     "tw-animate-css": "^1.3.4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "gantt-task-react": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   }
 }
