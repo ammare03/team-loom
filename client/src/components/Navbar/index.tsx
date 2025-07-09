@@ -1,10 +1,13 @@
 import React from "react";
-import { Menu, Moon, Search, Settings, Sun } from "lucide-react";
+import { Menu, Moon, Search, Settings, Sun, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
 import { Button } from "@/components/ui/button";
+import { useGetAuthUserQuery } from "@/state/api";
+import Image from "next/image";
+import { signOut } from "aws-amplify/auth";
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
@@ -13,6 +16,19 @@ export default function Navbar() {
   );
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+
+  const { data: currentUser } = useGetAuthUserQuery({});
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+  if (!currentUser) return null;
+  const currentUserDetails = currentUser?.userDetails;
 
   return (
     <div className="dark:bg-dark-bg flex items-center justify-between bg-white px-4 py-3">
@@ -64,6 +80,30 @@ export default function Navbar() {
           <Settings className="size-6 cursor-pointer dark:text-white" />
         </Link>
         <div className="mr-5 ml-2 hidden min-h-[2em] w-[0.1rem] bg-gray-200 md:inline-block"></div>
+        <div className="hidden items-center justify-between md:flex">
+          <div className="align-center flex size-9 justify-center">
+            {!!currentUserDetails?.profilePictureUrl ? (
+              <Image
+                src={`https://team-loom-s3-images.s3.us-east-1.amazonaws.com/${currentUserDetails.profilePictureUrl}`}
+                alt={currentUserDetails?.username || "User Profile Picture"}
+                width={100}
+                height={50}
+                className="h-full rounded-full object-cover"
+              />
+            ) : (
+              <User className="size-6 cursor-pointer self-center rounded-full dark:text-white" />
+            )}
+          </div>
+          <span className="mx-3 text-gray-800 dark:text-white">
+            {currentUserDetails?.username || "User"}
+          </span>
+          <button
+            className="hidden rounded bg-blue-400 px-4 py-2 text-sm font-bold text-white hover:bg-blue-500 md:block"
+            onClick={handleSignOut}
+          >
+            Sign Out
+          </button>
+        </div>
       </div>
     </div>
   );

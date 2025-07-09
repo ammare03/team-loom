@@ -26,7 +26,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { useGetProjectsQuery } from "@/state/api";
+import { useGetAuthUserQuery, useGetProjectsQuery } from "@/state/api";
+import { signOut } from "aws-amplify/auth";
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(true);
@@ -38,6 +39,19 @@ export default function Sidebar() {
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
+
+  const { data: currentUser } = useGetAuthUserQuery({});
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+  if (!currentUser) return null;
+  const currentUserDetails = currentUser?.userDetails;
 
   return (
     <div
@@ -161,6 +175,32 @@ export default function Sidebar() {
                 />
               </>
             )}
+          </div>
+          <div className="mt-32flex z-10 w-full flex-col items-center gap-4 bg-white px-8 py-4 md:hidden dark:bg-black">
+            <div className="flex w-full items-center">
+              <div className="align-center flex size-9 justify-center">
+                {!!currentUserDetails?.profilePictureUrl ? (
+                  <Image
+                    src={`https://team-loom-s3-images.s3.us-east-1.amazonaws.com/${currentUserDetails.profilePictureUrl}`}
+                    alt={currentUserDetails?.username || "User Profile Picture"}
+                    width={100}
+                    height={50}
+                    className="h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <User className="size-6 cursor-pointer self-center rounded-full dark:text-white" />
+                )}
+              </div>
+              <span className="mx-3 text-gray-800 dark:text-white">
+                {currentUserDetails?.username || "User"}
+              </span>
+              <button
+                className="self-start rounded bg-blue-400 px-4 py-2 text-sm font-bold text-white hover:bg-blue-500 md:block"
+                onClick={handleSignOut}
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>
