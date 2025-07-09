@@ -47,7 +47,7 @@ const formFields = {
 
 const AuthProvider = ({ children }: React.PropsWithChildren) => {
   return (
-    <div className="mt-5">
+    <div>
       <Authenticator formFields={formFields} hideSignUp={false}>
         {({ user }) =>
           user ? (
