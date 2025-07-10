@@ -1,6 +1,6 @@
 # Team Loom
 
-![Team Loom Banner](./client/public/logo.png)
+![Team Loom Banner](./client/public/banner.png)
 
 **A collaborative project management tool to streamline your workflow and enhance team productivity.**
 
