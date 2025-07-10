@@ -1,12 +1,9 @@
-
 # Team Loom
 
-![Team Loom Banner](https://user-images.githubusercontent.com/81003769/232287193-03b28a53-31b9-414a-973a-79de8e73c191.png)
+![Team Loom Banner](./client/public/logo.png)
 
 **A collaborative project management tool to streamline your workflow and enhance team productivity.**
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://main.d2lguap75cwei4.amplifyapp.com/)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/your-repo/team-loom/blob/main/LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
